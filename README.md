@@ -12,7 +12,7 @@ Setting the brightness will set the volume of the device.
 npm i -g homebridge-control-chromecast
 ```
   
-Example config.json:  
+Add this to your config.json.
   
 ```json
 "platforms":[
