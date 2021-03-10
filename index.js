@@ -49,7 +49,7 @@ function ControlChromecastPlatform(log, config, api) {
     if(this.config){
       this.ignoredDevices = this.config.ignoredDevices || [];
       this.whiteList = this.config.whiteList || [];
-      if(this.config.debug) = this.debug = true
+      if(this.config.debug) this.debug = true
     }
 
     this.baseList = ['Chromecast', 'Chromecast Audio', 'Google Cast Group', 'JBL Link View', 'Lenovo Smart Display', 'Google Nest Hub', 'Lenovo Smart Clock', 'Google Home', 'Google Home Mini', 'Google Nest Hub Max', 'Google Nest Mini'];
