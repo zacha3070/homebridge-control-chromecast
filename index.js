@@ -40,10 +40,24 @@ function ControlChromecastPlatform(log, config, api) {
     if (this.config && this.config.ignoredDevices && this.config.ignoredDevices.constructor !== Array)
         delete this.config.ignoredDevices;
 
+
+    if (this.config && this.config.whiteList && this.config.whiteList.constructor !== Array)
+        delete this.config.whiteList;
+
     this.CastScanner = mdns.createBrowser(mdns.tcp('googlecast'), { resolverSequence: mdnsSequence });
 
-    if(this.config)
+    if(this.config){
       this.ignoredDevices = this.config.ignoredDevices || [];
+      this.whiteList = this.config.whiteList || [];
+      if(this.config.debug) = this.debug = true
+    }
+
+    this.baseList = ['Chromecast', 'Chromecast Audio', 'Google Cast Group', 'JBL Link View', 'Lenovo Smart Display', 'Google Nest Hub', 'Lenovo Smart Clock', 'Google Home', 'Google Home Mini', 'Google Nest Hub Max', 'Google Nest Mini'];
+    for(let i = 0; i < this.baseList.length;i++){
+      this.whiteList.push(this.baseList[i]);
+    }
+
+
 
     /** homebridge api methods **/
     this.api = api; 
@@ -60,7 +74,10 @@ function ControlChromecastPlatform(log, config, api) {
 ControlChromecastPlatform.prototype.scanAccesories = function () {
 
   let addChromecast = function(device){
-    if(device && device.txtRecord && ['Chromecast', 'Chromecast Audio', 'Google Cast Group', 'JBL Link View', 'Lenovo Smart Display', 'Google Nest Hub', 'Lenovo Smart Clock', 'Google Home', 'Google Home Mini', 'Google Nest Hub Max', 'Google Nest Mini'].indexOf(device.txtRecord.md) !== -1){
+    try{
+     if(this.debug) console.log(device.txtRecord.md);
+    }catch(e){}
+    if(device && device.txtRecord && this.whiteList.indexOf(device.txtRecord.md) !== -1){
       let uuid = UUIDGen.generate(device.txtRecord.id);
       let accessory = this.accessories[uuid];
 
