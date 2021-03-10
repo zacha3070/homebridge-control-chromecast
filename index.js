@@ -75,7 +75,7 @@ ControlChromecastPlatform.prototype.scanAccesories = function () {
 
   let addChromecast = function(device){
     try{
-     if(this.debug) console.log(device.txtRecord.md);
+     if(this.debug) this.log(device.txtRecord.md);
     }catch(e){}
     if(device && device.txtRecord && this.whiteList.indexOf(device.txtRecord.md) !== -1){
       let uuid = UUIDGen.generate(device.txtRecord.id);
